@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <script src="jquery-2.2.4.js"></script>
+  <meta charset="utf-8">
+  <title>Exercice 1</title>
+</head>
+<body>
+  <!-- Ajout d'une liste d'un bouton pour valider le choix et d'un p vide pour y ajouter le résultat -->
+  <ul>
+    <li id="choice">Faites votre choix !</li>
+    <li class="janken" id="first" hidden>Pierre</li>
+    <li class="janken" id="second" hidden>Feuille</li>
+    <li class="janken" id="last" hidden>Ciseaux</li>
+  </ul>
+  <button type="button" name="button" id="validate">Jan Ken Po !</button>
+  <p id="result"></p>
+  <script>
+  // fonction pour attendre que le document soit ready
+  $(function() {
+    // Ajout d'un click à la première li pour la cacher et afficher les 3 choix initialement cachés
+    $('#choice').click(function() {
+      $('.janken').show();
+      $('#last').css('border-bottom', '3px solid black');
+      $('#choice').hide();
+    });
+    // Création de 4 variable qui nous sert de base et d'une fonction append pour afficher à l'user les résultats à venir
+    var user_choice = 0;
+    var victory = 0;
+    var defeat = 0;
+    var result = 'Victoire: '+victory+'<br>Défaite: '+defeat+'<br>Pourcentage de victoire: '+0+'%';
+    $('#result').append(result);
+    // Ajout d'un click à chaque li pour permettre à l'user de les selectionner et récuperer son choix
+    $('#first').click(function() {
+      user_choice = 1;
+      $('#first').css('background-color','green');
+      $('#second').css('background-color', 'white');
+      $('#last').css('background-color', 'white');
+      return user_choice;
+    });
+    $('#second').click(function() {
+      user_choice = 2;
+      $('#second').css('background-color', 'green');
+      $('#first').css('background-color', 'white');
+      $('#last').css('background-color', 'white');
+      return user_choice;
+    });
+    $('#last').click(function() {
+      user_choice = 3;
+      $('#last').css('background-color', 'green');
+      $('#second').css('background-color', 'white');
+      $('#first').css('background-color', 'white');
+      return user_choice;
+    });
+    /* Ajout d'un click au bouton pour:
+    1: L'ordinateur rende un choix
+    2: Poser les conditions du jankenpo maintenant qu'on à les deux choix
+    3: Incrémanter les variables victory et defeat à chaque résultats
+    4: vider le p result et rendre à chaque validation les nouveaux résultats */
+    $('#validate').click(function() {
+      var computer_choice = Math.floor((Math.random() * 3) + 1);
+      if (computer_choice == user_choice) {
+        alert('Ai Kono Sho ! Il y a égalité, rejouez =)');
+      } else { if (user_choice == 1 && computer_choice == 2) {
+        alert('Feuille, vous avez perdu ! Retentez votre chance =)')
+        defeat ++;
+      } else if (user_choice == 2 && computer_choice == 1) {
+        alert('Pierre, gagné ! Jouez encore =)')
+        victory ++;
+      } else if (user_choice == 3 && computer_choice == 2) {
+        alert('Feuille, gagné ! Jouez encore =)')
+        victory ++;
+      } else if (user_choice == 1 && computer_choice == 3) {
+        alert('Ciseaux, gagné ! Jouez encore =)')
+        victory ++;
+      } else if (user_choice == 2 && computer_choice == 3) {
+        alert('Ciseaux, perdu ! Retentez votre chance =)')
+        defeat ++;
+      } else if (user_choice == 3 && computer_choice == 1) {
+        alert('Pierre, perdu ! Retentez votre chance =)')
+        defeat ++;
+      }
+    }//~else
+    $('#result').empty();
+    result = 'Victoire: '+victory+'<br>Défaite: '+defeat+'<br>Pourcentage de victoire: '+parseInt((victory / (victory+defeat) * 100))+'%';
+    return $('#result').append(result);
+    });//~Validate
+  });//~Ready
+  </script>
+</body>
+</html>
